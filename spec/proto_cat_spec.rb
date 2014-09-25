@@ -1,7 +1,6 @@
 require 'ostruct'
-require 'simplecov'
-SimpleCov.start
-require_relative '../lib/proto_cat/with_sugar'
+require_relative 'spec_helper'
+require_relative '../lib/proto_cat'
 
 RSpec.describe ProtoCat do
 
@@ -21,9 +20,6 @@ RSpec.describe ProtoCat do
 
       it 'returns true when the protocol is satisfied' do
         expect( IsCat.satisfied_by? @cat ).to eq(true)
-      end
-
-      it 'returns false when the protocol is not fully satisfied' do
         expect( IsCat.satisfied_by? @dog ).to eq(false)
       end
 
@@ -31,11 +27,8 @@ RSpec.describe ProtoCat do
 
     describe '#satisfied_by!' do
 
-      it 'returns true when the protocol is satisfied' do
-        expect( IsCat.satisfied_by! @cat ).to eq(true)
-      end
-
       it 'raise error when the protocol is not satisfied' do
+        expect( IsCat.satisfied_by! @cat ).to eq(true)
         expect{ IsCat.satisfied_by! @dog }.to raise_error(ProtoCat::NotImplementedError)
       end
 
@@ -49,9 +42,6 @@ RSpec.describe ProtoCat do
 
       it 'returns true when the object satisfies the protocol' do
         expect( ProtoCat.object(@cat).satisfy? IsCat ).to eq(true)
-      end
-
-      it 'returns false when the object doesn\'t satisfy the protocol'  do
         expect( ProtoCat.object(@dog).satisfy? IsCat ).to eq(false)
       end
 
@@ -59,11 +49,8 @@ RSpec.describe ProtoCat do
 
     describe '#satisfy!' do
 
-      it 'returns true when the object satisfies the protocol' do
-        expect( ProtoCat.object(@cat).satisfy! IsCat ).to eq(true)
-      end
-
       it 'raise error when the object doesn\'t satisfy the protocol'  do
+        expect( ProtoCat.object(@cat).satisfy! IsCat ).to eq(true)
         expect{ ProtoCat.object(@dog).satisfy! IsCat }.to raise_error(ProtoCat::NotImplementedError)
       end
 
